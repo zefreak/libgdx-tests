@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -20,7 +22,7 @@ public class SplashScreen extends ScreenAdapter {
     public SplashScreen(MyGame myGame) {     
     	game = myGame;
         stage = new Stage();
-        splashTexture = new Texture( "default.png" );
+        splashTexture = new Texture( "splash.png" );
         splashTexture.setFilter( TextureFilter.Linear, TextureFilter.Linear );
 
         Gdx.input.setInputProcessor(stage);
@@ -52,7 +54,13 @@ public class SplashScreen extends ScreenAdapter {
         splashImage.setWidth(width);
         splashImage.setHeight(height);
         splashImage.setColor(splashImage.getColor().r, splashImage.getColor().g, splashImage.getColor().b, 0f);
-        splashImage.addAction(sequence(fadeIn(2), delay(3), fadeOut(2), run(new Runnable() {
+        splashImage.addListener(new ClickListener(){
+            @Override 
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+        splashImage.addAction(sequence(fadeIn(2), delay(2), fadeOut(2), run(new Runnable() {
             public void run () {
             	game.setScreen(new MainMenuScreen(game));
             }
